@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="mqtt.min.js"></script>
+   
+  </head>
+  <body>
+   <script>
+    var g1,g2;
+  
+var client  = mqtt.connect('ws://iobinahead.ddns.net',{
+        port: 8080
+    });
+
+client.on('connect', function () {
+  client.subscribe('maker-plug01/data');
+  client.subscribe('maker-plug01/#');
+  client.publish('maker-plug01/action/set', 'reboot');
+  document.getElementById("lb").innerHTML = 'connect';
+
+})
+
+client.on('message', function (topic, message) {
+
+  //console.log(topic.toString()+' > '+message.toString());
+
+ 	
+ 
+ 	
+if(topic=="npru/037/f4/408/wuttha/temp"){
+	
+
+}else if(topic=="npru/037/f4/408/wuttha/humid"){
+	
+}
+  
+  document.getElementById("lb").innerHTML = message.toString();
+  //client.end()
+})
+function press(m){
+	if(m==1){
+		client.publish('maker-plug01/relay/0/set', '1');
+	}else{
+		client.publish('maker-plug01/relay/0/set', '0');
+	}
+}
+
+</script>
+<input type="button" onClick="press(1)" value="ON"><input type="button" onClick="press(0)" value="OFF">
+<div id="lb">[ON]</div>
+
+  </body>
+</html>
